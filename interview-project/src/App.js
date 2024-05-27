@@ -1,10 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
+import TabelData from "./components/TabelData";
+import HeadTable from "./components/HeadTable";
 
 function App() {
   return (
     <>
-      <p>hello world</p>
+      <h1>My Data</h1>
+      <HeadTable />
+      <TabelData />
     </>
   );
 }
