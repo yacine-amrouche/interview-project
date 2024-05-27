@@ -6,14 +6,29 @@ import { users } from "./users";
 function TabelData() {
   return (
     <>
-      {users.map((tab, index) => (
-        <div className="table_data">
-          <p key={index}>{tab.id}</p>
-          <p key={index}>{tab.name}</p>
-          <p key={index}>{tab.phone}</p>
-          <p key={index}>{tab.email}</p>
-        </div>
-      ))}
+      <div className="table_container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {users.map((tab, index) => (
+              <tr>
+                <td>{tab.id}</td>
+                <td>{tab.name}</td>
+                <td>{tab.phone}</td>
+                <td className="email">{tab.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

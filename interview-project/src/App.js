@@ -6,8 +6,8 @@ import HeadTable from "./components/HeadTable";
 function App() {
   return (
     <>
-      <h1>My Data</h1>
-      <HeadTable />
+      <h1 className="title">My Data</h1>
+
       <TabelData />
     </>
   );
