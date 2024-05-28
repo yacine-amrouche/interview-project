@@ -5,7 +5,8 @@ import { users } from "./users";
 
 function TabelData() {
   const [value, setValue] = useState("");
-  const [filterByName, setFilterByName] = useState(users);
+  const [filterByName, setFilterByName] = useState([]);
+  const [toggle, setToggle] = useState(false);
   console.log(value);
   useEffect(() => {
     if (value !== "") {
@@ -19,16 +20,31 @@ function TabelData() {
   }, [value]);
 
   function handelSort() {
-    const oreder = filterByName.sort((a, b) => {
+    const order = filterByName.sort((a, b) => {
       return b.name === a.name ? 0 : b.name < a.name ? 1 : -1;
     });
-    console.log(oreder);
-    setFilterByName(oreder);
+    setFilterByName(order);
+    console.log(order);
+  }
+  function tooggleMode() {
+    setToggle(true);
+  }
+  function toggleBack() {
+    setToggle(false);
   }
 
   return (
     <>
-      <div className="table_container">
+      <div className="buttons">
+        <button onClick={tooggleMode} className="toggle_mode dark">
+          Dark
+        </button>
+        <button onClick={toggleBack} className="toggle_mode">
+          Light
+        </button>
+      </div>
+
+      <div className={toggle ? "table_dark" : "table_container"}>
         <input
           className="search_bar"
           placeholder="search..."
@@ -39,7 +55,12 @@ function TabelData() {
           <thead>
             <tr>
               <th>ID</th>
-              <th className="name" onClick={handelSort}>
+              <th
+                className="name"
+                onClick={() => {
+                  handelSort();
+                }}
+              >
                 Name
               </th>
               <th>Phone</th>
@@ -48,7 +69,7 @@ function TabelData() {
           </thead>
 
           <tbody>
-            {filterByName.map((tab, index) => (
+            {filterByName.map((tab) => (
               <tr>
                 <td>{tab.id}</td>
                 <td>{tab.name}</td>
