@@ -13,6 +13,7 @@ function TabelData() {
       const res = users.filter((item) =>
         item.name.toLocaleLowerCase().startsWith(value)
       );
+
       setFilterByName(res);
     } else {
       setFilterByName(users);
@@ -20,11 +21,12 @@ function TabelData() {
   }, [value]);
 
   function handelSort() {
-    const order = filterByName.sort((a, b) => {
+    let order = filterByName.sort((a, b) => {
       return b.name === a.name ? 0 : b.name < a.name ? 1 : -1;
     });
-    setFilterByName(order);
     console.log(order);
+    setFilterByName(order);
+    setToggle("");
   }
   function tooggleMode() {
     setToggle(true);
@@ -55,12 +57,7 @@ function TabelData() {
           <thead>
             <tr>
               <th>ID</th>
-              <th
-                className="name"
-                onClick={() => {
-                  handelSort();
-                }}
-              >
+              <th className="name" onClick={handelSort}>
                 Name
               </th>
               <th>Phone</th>
