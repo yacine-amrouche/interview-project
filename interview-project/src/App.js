@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import TabelData from "./components/TabelData";
-import HeadTable from "./components/HeadTable";
+import { useState } from "react";
 
 function App() {
   return (

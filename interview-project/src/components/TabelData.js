@@ -5,18 +5,26 @@ import { users } from "./users";
 
 function TabelData() {
   const [value, setValue] = useState("");
-  const [filterByName, setFilterByName] = useState([]);
+  const [filterByName, setFilterByName] = useState(users);
   const [toggle, setToggle] = useState(false);
-  console.log(value);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPages, setPerPages] = useState(10);
+
+  const indexLastPage = currentPage * perPages;
+  const indexFirstPage = indexLastPage - perPages;
+  const currentPages = users.slice(indexFirstPage, indexLastPage);
+  const npage = Math.ceil(users.length / perPages);
+  const number = [...Array(npage + 1).keys()].slice(1);
+
   useEffect(() => {
     if (value !== "") {
-      const res = users.filter((item) =>
+      const res = currentPages.filter((item) =>
         item.name.toLocaleLowerCase().startsWith(value)
       );
 
       setFilterByName(res);
     } else {
-      setFilterByName(users);
+      setFilterByName(currentPages);
     }
   }, [value]);
 
@@ -35,6 +43,19 @@ function TabelData() {
     setToggle(false);
   }
 
+  function changeCurrentPage(num) {
+    setCurrentPage(num);
+  }
+  function toNext() {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+  function toPrev() {
+    if (currentPage !== indexLastPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
   return (
     <>
       <div className="buttons">
@@ -71,11 +92,36 @@ function TabelData() {
                 <td>{tab.id}</td>
                 <td>{tab.name}</td>
                 <td>{tab.phone}</td>
-                <td className="email">{tab.email}</td>
+                <td>{tab.email}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        <nav>
+          <ul className="list">
+            <li className="page-item">
+              <a onChange={toPrev} className="page-link btn">
+                Prev
+              </a>
+            </li>
+            {number.map((n) => (
+              <li className="page-item" key={n}>
+                <a
+                  className="page-link"
+                  href="!#"
+                  onClick={() => changeCurrentPage(n)}
+                >
+                  {n}
+                </a>
+              </li>
+            ))}
+            <li className="page-item">
+              <a onChange={toNext} className="page-link btn">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   );
