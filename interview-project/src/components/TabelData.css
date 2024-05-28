@@ -22,3 +22,13 @@ th {
 .email {
   color: blue;
 }
+.search_bar {
+  width: 180px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  padding-left: 10px;
+}
+.name {
+  cursor: pointer;
+}
