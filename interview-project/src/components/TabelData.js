@@ -8,7 +8,7 @@ function TabelData() {
   const [filterByName, setFilterByName] = useState(users);
   const [toggle, setToggle] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPages, setPerPages] = useState(10);
+  const perPages = 10;
 
   const indexLastPage = currentPage * perPages;
   const indexFirstPage = indexLastPage - perPages;
@@ -26,15 +26,14 @@ function TabelData() {
     } else {
       setFilterByName(currentPages);
     }
-  }, [value]);
+  }, [currentPages]);
 
   function handelSort() {
-    let order = filterByName.sort((a, b) => {
+    const order = currentPages.sort((a, b) => {
       return b.name === a.name ? 0 : b.name < a.name ? 1 : -1;
     });
-    console.log(order);
+
     setFilterByName(order);
-    setToggle("");
   }
   function tooggleMode() {
     setToggle(true);
@@ -44,18 +43,21 @@ function TabelData() {
   }
 
   function changeCurrentPage(num) {
-    setCurrentPage(num);
+    let currentPage = num;
+    setCurrentPage(currentPage);
   }
   function toNext() {
+    if (currentPage !== number.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  function toPrev() {
     if (currentPage !== 1) {
       setCurrentPage(currentPage - 1);
     }
   }
-  function toPrev() {
-    if (currentPage !== indexLastPage) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
+
   return (
     <>
       <div className="buttons">
@@ -100,15 +102,15 @@ function TabelData() {
         <nav>
           <ul className="list">
             <li className="page-item">
-              <a onChange={toPrev} className="page-link btn">
+              <a onClick={toPrev} className="page-link btn">
                 Prev
               </a>
             </li>
             {number.map((n) => (
-              <li className="page-item" key={n}>
+              <li className="page-item">
                 <a
                   className="page-link"
-                  href="!#"
+                  href="#"
                   onClick={() => changeCurrentPage(n)}
                 >
                   {n}
@@ -116,7 +118,7 @@ function TabelData() {
               </li>
             ))}
             <li className="page-item">
-              <a onChange={toNext} className="page-link btn">
+              <a onClick={toNext} className="page-link btn">
                 Next
               </a>
             </li>

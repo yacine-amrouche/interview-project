@@ -1,7 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import TabelData from "./components/TabelData";
-import { useState } from "react";
+//import { useState } from "react";
 
 function App() {
   return (
