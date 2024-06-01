@@ -1,14 +1,16 @@
+import { ChakraProvider, Container, Text } from "@chakra-ui/react";
 import "./App.css";
-import TabelData from "./components/TabelData";
-//import { useState } from "react";
+import { DataTable } from "./components";
+import { users } from "./api/users";
+import { countries } from "./api/countries";
 
 function App() {
   return (
-    <>
-      <h1 className="title">My Data</h1>
-
-      <TabelData />
-    </>
+    <ChakraProvider>
+      <Container>
+        <DataTable data={users} title="My Data" />
+      </Container>
+    </ChakraProvider>
   );
 }
 
