@@ -7,9 +7,9 @@ import { countries } from "./api/countries";
 function App() {
   return (
     <ChakraProvider>
-      <Container>
-        <DataTable data={users} title="My Data" />
-      </Container>
+      <DataTable data={countries} title="My countries" />
+      <br></br>
+      <DataTable data={users} title="My Data" />
     </ChakraProvider>
   );
 }

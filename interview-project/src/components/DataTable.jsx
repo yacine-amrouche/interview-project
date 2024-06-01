@@ -8,7 +8,7 @@ import {
   Td,
   TableCaption,
   TableContainer,
-  Text
+  Text,
 } from "@chakra-ui/react";
 
 /*
@@ -19,44 +19,28 @@ import {
 */
 
 export const DataTable = ({ data, title }) => {
-  console.log(data);
+  const columns = Object.keys(data[0]);
 
   return (
     <TableContainer>
       <Text fontSize="3xl">{title}</Text>
       <Table variant="simple">
-        <TableCaption>Imperial to metric conversion factors</TableCaption>
         <Thead>
           <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
+            {columns.map((column) => (
+              <Th key={column}>{column}</Th>
+            ))}
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-          <Tr>
-            <Td>feet</Td>
-            <Td>centimetres (cm)</Td>
-            <Td isNumeric>30.48</Td>
-          </Tr>
-          <Tr>
-            <Td>yards</Td>
-            <Td>metres (m)</Td>
-            <Td isNumeric>0.91444</Td>
-          </Tr>
+          {data.map((row, index) => (
+            <Tr key={`table-row-${index}`}>
+              {columns.map((columnName, i) => (
+                <Td key={`table-cell-${index}-${i}`}>{row[columnName]}</Td>
+              ))}
+            </Tr>
+          ))}
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-          </Tr>
-        </Tfoot>
       </Table>
     </TableContainer>
   );
