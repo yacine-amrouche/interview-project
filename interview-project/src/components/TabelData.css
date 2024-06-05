@@ -15,6 +15,7 @@ td {
   text-align: left;
   padding: 8px;
   font-size: 16px;
+  cursor: pointer;
 }
 th {
   background-color: gray;
@@ -28,6 +29,7 @@ th {
   border-radius: 8px;
   font-size: 18px;
   padding-left: 10px;
+  border: 1px solid black;
 }
 .name {
   cursor: pointer;

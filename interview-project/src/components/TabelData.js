@@ -1,61 +1,73 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./TabelData.css";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 import { users } from "./users";
 
 function TabelData() {
-  const [value, setValue] = useState("");
   const [filterByName, setFilterByName] = useState(users);
   const [toggle, setToggle] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const perPages = 10;
+  const [sortingOrderAsc, setSortingOrderAsc] = useState(true);
+  const [columName, setColumName] = useState("");
+  //const [currentPage, setCurrentPage] = useState(1);
+  //const perPages = 10;
 
-  const indexLastPage = currentPage * perPages;
-  const indexFirstPage = indexLastPage - perPages;
-  const currentPages = users.slice(indexFirstPage, indexLastPage);
-  const npage = Math.ceil(users.length / perPages);
-  const number = [...Array(npage + 1).keys()].slice(1);
+  //const indexLastPage = currentPage * perPages;
+  //const indexFirstPage = indexLastPage - perPages;
+  //const currentPages = users.slice(indexFirstPage, indexLastPage);
+  //const npage = Math.ceil(users.length / perPages);
+  //const number = [...Array(npage + 1).keys()].slice(1);
 
-  useEffect(() => {
-    if (value !== "") {
-      const res = currentPages.filter((item) =>
-        item.name.toLocaleLowerCase().startsWith(value)
+  const columns = Object.keys(users[0]);
+
+  const searchBar = (e) => {
+    if (e.target.value !== "") {
+      const dataFiltered = users.filter((row) =>
+        columns.some((column) =>
+          String(row[column])
+            .toLowerCase()
+            .startsWith(e.target.value.toLowerCase())
+        )
       );
-
-      setFilterByName(res);
+      setFilterByName(dataFiltered);
     } else {
-      setFilterByName(currentPages);
+      setFilterByName(users);
     }
-  }, [currentPages]);
+  };
+  //useEffect(() => {
+  //if (value !== "") {
+  //const res = currentPages.filter((item) =>
+  //item.name.toLocaleLowerCase().startsWith(value)
+  //);
 
-  function handelSort() {
-    const order = currentPages.sort((a, b) => {
-      return b.name === a.name ? 0 : b.name < a.name ? 1 : -1;
+  //setFilterByName(res);
+  //} else {
+  //setFilterByName(currentPages);
+  //}
+  //}, [currentPages]);
+
+  function handelSort(clmName) {
+    const sortedData = [...filterByName].sort((a, b) => {
+      const columnA = String(a[clmName]).toLowerCase();
+      const columnB = String(b[clmName]).toLowerCase();
+
+      if (columnA < columnB) return sortingOrderAsc ? -1 : 1;
+      if (columnA > columnB) return sortingOrderAsc ? 1 : -1;
+      return 0;
     });
-
-    setFilterByName(order);
+    setFilterByName(sortedData);
+    setSortingOrderAsc(!sortingOrderAsc);
+    setColumName(clmName);
   }
+  console.log(columName);
+  const getAsc = (isAsc) => {
+    isAsc ? <span>up</span> : <span>down</span>;
+  };
   function tooggleMode() {
     setToggle(true);
   }
   function toggleBack() {
     setToggle(false);
-  }
-
-  function changeCurrentPage(num) {
-    let currentPage = num;
-    setCurrentPage(currentPage);
-  }
-  function toNext() {
-    if (currentPage !== number.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
-
-  function toPrev() {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    }
   }
 
   return (
@@ -73,33 +85,40 @@ function TabelData() {
         <input
           className="search_bar"
           placeholder="search..."
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => searchBar(e)}
         />
 
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th className="name" onClick={handelSort}>
-                Name
-              </th>
-              <th>Phone</th>
-              <th>Email</th>
+              {columns.map((clm) => (
+                <th onClick={() => handelSort(clm)}>
+                  {clm}
+                  {clm === columName ? getAsc(sortingOrderAsc) : ""}
+                </th>
+              ))}
             </tr>
           </thead>
 
           <tbody>
             {filterByName.map((tab) => (
               <tr>
-                <td>{tab.id}</td>
-                <td>{tab.name}</td>
-                <td>{tab.phone}</td>
-                <td>{tab.email}</td>
+                {columns.map((row) => (
+                  <td>{tab[row]}</td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
-        <nav>
+      </div>
+    </>
+  );
+}
+export default TabelData;
+
+/*
+
+ <nav>
           <ul className="list">
             <li className="page-item">
               <a onClick={toPrev} className="page-link btn">
@@ -124,8 +143,5 @@ function TabelData() {
             </li>
           </ul>
         </nav>
-      </div>
-    </>
-  );
-}
-export default TabelData;
+
+*/

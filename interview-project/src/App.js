@@ -1,13 +1,14 @@
 import "./App.css";
 import TabelData from "./components/TabelData";
-//import { useState } from "react";
+import { ChakraProvider, Heading } from "@chakra-ui/react";
 
 function App() {
   return (
     <>
-      <h1 className="title">My Data</h1>
-
-      <TabelData />
+      <ChakraProvider>
+        <Heading>My Data</Heading>
+        <TabelData />
+      </ChakraProvider>
     </>
   );
 }
