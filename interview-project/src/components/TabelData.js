@@ -1,14 +1,15 @@
 import { useState } from "react";
 import "./TabelData.css";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-
 import { users } from "./users";
+import { Button } from "@chakra-ui/react";
 
 function TabelData() {
   const [filterByName, setFilterByName] = useState(users);
   const [toggle, setToggle] = useState(false);
   const [sortingOrderAsc, setSortingOrderAsc] = useState(true);
   const [columName, setColumName] = useState("");
+
   //const [currentPage, setCurrentPage] = useState(1);
   //const perPages = 10;
 
@@ -60,26 +61,20 @@ function TabelData() {
     setColumName(clmName);
   }
   console.log(columName);
-  const getAsc = (isAsc) => {
-    isAsc ? <span>up</span> : <span>down</span>;
+  const getAsc = () => {
+    return sortingOrderAsc ? <ChevronUpIcon /> : <ChevronDownIcon />;
   };
   function tooggleMode() {
-    setToggle(true);
-  }
-  function toggleBack() {
-    setToggle(false);
+    setToggle(!toggle);
   }
 
   return (
     <>
-      <div className="buttons">
-        <button onClick={tooggleMode} className="toggle_mode dark">
-          Dark
-        </button>
-        <button onClick={toggleBack} className="toggle_mode">
-          Light
-        </button>
-      </div>
+      {toggle ? (
+        <Button onClick={tooggleMode}>light</Button>
+      ) : (
+        <Button onClick={tooggleMode}>dark</Button>
+      )}
 
       <div className={toggle ? "table_dark" : "table_container"}>
         <input
@@ -94,7 +89,7 @@ function TabelData() {
               {columns.map((clm) => (
                 <th onClick={() => handelSort(clm)}>
                   {clm}
-                  {clm === columName ? getAsc(sortingOrderAsc) : ""}
+                  {clm === columName ? getAsc() : ""}
                 </th>
               ))}
             </tr>
